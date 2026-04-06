@@ -25,9 +25,9 @@ function reorder(order) {
 <template>
   <div>
     <h2 class="text-h5 font-weight-bold mb-4">Order Again</h2>
-    <v-list>
-      <v-list-item v-for="order in recentOrders" :key="order.orderId" class="mb-2">
-        <v-card variant="outlined" class="pa-4 w-100" rounded="lg">
+    <v-list class="reorder-list">
+      <v-list-item v-for="order in recentOrders" :key="order.orderId" class="mb-2 px-2">
+        <v-card variant="outlined" class="pa-4 w-100 reorder-card" rounded="xl">
           <div class="d-flex align-center justify-space-between flex-wrap">
             <div>
               <div class="text-body-2 text-grey mb-1">{{ order.date }}</div>
@@ -58,3 +58,22 @@ function reorder(order) {
     </v-list>
   </div>
 </template>
+
+<style scoped>
+.reorder-list {
+  overflow: visible !important;
+  padding: 4px 0 8px 0;
+  background: transparent !important;
+}
+.reorder-list .v-list-item {
+  overflow: visible !important;
+}
+.reorder-card {
+  transform: none !important;
+  box-shadow: none !important;
+}
+.reorder-card:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+</style>

@@ -63,7 +63,7 @@ const isFavorite = memberStore.member.favoriteItemIds.includes(props.item.id)
           <span class="text-caption text-grey">{{ item.calories }} cal</span>
         </div>
         <v-btn color="black" variant="flat" block size="small" rounded="lg" @click="cartStore.addItem(item)">
-          Add to Cart
+          Add to Order
         </v-btn>
       </div>
     </v-card-text>

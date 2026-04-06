@@ -1,8 +1,16 @@
 <script setup>
 import PersonalizedPicks from '../components/home/PersonalizedPicks.vue'
 import QuickReorder from '../components/home/QuickReorder.vue'
-import TrendingItemChart from '../components/charts/TrendingItemChart.vue'
 import trendingData from '../data/trending.json'
+import menuData from '../data/menu.json'
+import { useCartStore } from '../stores/cartStore'
+
+const cartStore = useCartStore()
+
+const trendingItems = trendingData.map(t => {
+  const menuItem = menuData.find(m => m.name === t.name)
+  return { ...t, image: menuItem?.image, price: menuItem?.price, calories: menuItem?.calories, menuItem }
+})
 </script>
 
 <template>
@@ -33,18 +41,40 @@ import trendingData from '../data/trending.json'
       <PersonalizedPicks />
     </div>
 
-    <!-- Trending Now -->
+    <!-- Popular Orders -->
     <div class="mb-6">
-      <h2 class="text-h5 font-weight-bold mb-4">Trending at Your Store 📈</h2>
-      <v-row>
-        <v-col v-for="item in trendingData" :key="item.name" cols="12" md="4">
-          <v-card class="pa-4" variant="flat" rounded="lg">
-            <div class="text-subtitle-1 font-weight-bold mb-1">{{ item.name }}</div>
-            <div class="text-caption text-grey mb-3">Ordered {{ item.ordersToday }} times today</div>
-            <TrendingItemChart :item-name="item.name" :hourly-orders="item.hourlyOrders" />
+      <h2 class="text-h5 font-weight-bold mb-1">Popular Orders</h2>
+      <p class="text-body-2 text-grey mb-4">What everyone's loving right now</p>
+      <div class="popular-scroll">
+        <div class="popular-scroll-inner">
+          <v-card v-for="item in trendingItems" :key="item.name" class="popular-card" width="200" rounded="lg" variant="flat">
+            <v-img
+              :src="item.image"
+              :alt="item.name"
+              height="140"
+              cover
+              class="rounded-t-lg"
+            >
+              <template #placeholder>
+                <div class="d-flex align-center justify-center fill-height bg-grey-lighten-3">
+                  <v-icon size="36" color="grey-lighten-1">mdi-image</v-icon>
+                </div>
+              </template>
+            </v-img>
+            <v-card-text class="pa-3">
+              <div class="text-subtitle-2 font-weight-bold mb-1">{{ item.name }}</div>
+              <v-chip size="x-small" variant="flat" class="mb-2 popular-tag">Ordered {{ item.ordersToday }}x today</v-chip>
+              <div class="d-flex justify-space-between align-center mb-2">
+                <span class="text-body-2 font-weight-bold">${{ item.price?.toFixed(2) }}</span>
+                <span class="text-caption text-grey">{{ item.calories }} cal</span>
+              </div>
+              <v-btn v-if="item.menuItem" variant="outlined" color="black" size="small" block rounded="lg" @click="cartStore.addItem(item.menuItem)">
+                Add to Order
+              </v-btn>
+            </v-card-text>
           </v-card>
-        </v-col>
-      </v-row>
+        </div>
+      </div>
     </div>
 
     <!-- Quick Reorder -->
@@ -53,3 +83,30 @@ import trendingData from '../data/trending.json'
     </div>
   </v-container>
 </template>
+
+<style scoped>
+.popular-scroll {
+  overflow-x: auto;
+  overflow-y: visible;
+  margin-left: -8px;
+  margin-right: -16px;
+  padding: 8px 16px 16px 8px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.popular-scroll::-webkit-scrollbar {
+  display: none;
+}
+.popular-scroll-inner {
+  display: flex;
+  gap: 12px;
+  padding-right: 16px;
+}
+.popular-card {
+  flex: 0 0 auto;
+}
+.popular-tag {
+  background-color: rgba(204, 5, 5, 0.1) !important;
+  color: #cc0505 !important;
+}
+</style>

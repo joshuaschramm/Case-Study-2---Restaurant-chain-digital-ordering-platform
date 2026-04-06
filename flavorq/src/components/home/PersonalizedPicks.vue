@@ -66,9 +66,9 @@ const picks = computed(() => {
     <h2 class="text-h5 font-weight-bold mb-1">Picked For You</h2>
     <p class="text-body-2 text-grey mb-4">Based on your favorites, the weather, and time of day</p>
 
-    <v-slide-group show-arrows>
-      <v-slide-group-item v-for="item in picks" :key="item.id">
-        <v-card class="ma-2" width="200" rounded="lg" variant="flat">
+    <div class="picks-scroll">
+      <div class="picks-scroll-inner">
+        <v-card v-for="item in picks" :key="item.id" class="picks-card" width="200" rounded="lg" variant="flat">
           <v-img
             :src="item.image"
             :alt="item.name"
@@ -90,12 +90,12 @@ const picks = computed(() => {
               <span class="text-caption text-grey">{{ item.calories }} cal</span>
             </div>
             <v-btn variant="outlined" color="black" size="small" block rounded="lg" @click="cartStore.addItem(item)">
-              Add to Cart
+              Add to Order
             </v-btn>
           </v-card-text>
         </v-card>
-      </v-slide-group-item>
-    </v-slide-group>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -103,5 +103,25 @@ const picks = computed(() => {
 .pick-tag {
   background-color: rgba(204, 5, 5, 0.1) !important;
   color: #cc0505 !important;
+}
+.picks-scroll {
+  overflow-x: auto;
+  overflow-y: visible;
+  margin-left: -8px;
+  margin-right: -16px;
+  padding: 8px 16px 16px 8px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.picks-scroll::-webkit-scrollbar {
+  display: none;
+}
+.picks-scroll-inner {
+  display: flex;
+  gap: 12px;
+  padding-right: 16px;
+}
+.picks-card {
+  flex: 0 0 auto;
 }
 </style>

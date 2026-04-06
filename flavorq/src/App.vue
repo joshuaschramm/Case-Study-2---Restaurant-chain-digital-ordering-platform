@@ -41,15 +41,9 @@ const activeTab = computed(() => {
       </v-app-bar-title>
       <v-spacer></v-spacer>
 
-      <!-- Context chips — only on larger screens -->
-      <div class="d-none d-sm-flex align-center mr-2">
-        <v-chip size="x-small" variant="outlined" color="black" class="mr-1">☀️ 78°F</v-chip>
-        <v-chip size="x-small" variant="outlined" color="black">{{ timeOfDay }}</v-chip>
-      </div>
-
       <v-btn icon size="small" @click="cartStore.toggleDrawer()">
         <v-badge :content="cartStore.itemCount" :model-value="cartStore.itemCount > 0" color="black" text-color="white">
-          <v-icon color="black">mdi-cart-outline</v-icon>
+          <v-icon color="black">mdi-shopping-outline</v-icon>
         </v-badge>
       </v-btn>
 
@@ -107,17 +101,34 @@ const activeTab = computed(() => {
 </template>
 
 <style>
+/* Ensure card grids and containers don't clip shadows */
+.v-container {
+  overflow: visible !important;
+}
+.v-row {
+  overflow: visible !important;
+}
+.v-col {
+  overflow: visible !important;
+}
+
 /* Softer shadows globally via Vuetify elevation override */
 .v-card {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06), 0 1px 6px rgba(0, 0, 0, 0.03) !important;
+  border-radius: 16px !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.v-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1), 0 3px 10px rgba(0, 0, 0, 0.05) !important;
 }
 .v-card[class*="elevation-2"],
 .v-card.elevation-2 {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.08), 0 2px 10px rgba(0, 0, 0, 0.04) !important;
 }
 .v-card[class*="elevation-4"],
 .v-card.elevation-4 {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 4px 14px rgba(0, 0, 0, 0.05) !important;
 }
 .border-t {
   border-top: 1px solid #E0E0E0 !important;

@@ -21,7 +21,7 @@ const cartStore = useCartStore()
 
       <!-- Empty State -->
       <div v-if="cartStore.isEmpty" class="text-center py-12">
-        <v-icon size="80" color="grey-lighten-1">mdi-cart-off</v-icon>
+        <v-icon size="80" color="grey-lighten-1">mdi-shopping-outline</v-icon>
         <p class="text-body-1 text-grey mt-4">Your cart is empty.</p>
         <p class="text-body-2 text-grey">Browse the menu to get started!</p>
         <v-btn color="primary" variant="outlined" class="mt-4" to="/menu" @click="cartStore.toggleDrawer()">

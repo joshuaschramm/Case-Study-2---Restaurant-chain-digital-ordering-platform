@@ -42,13 +42,11 @@ function handlePlaceOrder() {
 
 <template>
   <v-dialog
-    :model-value="cartStore.isCheckoutOpen"
-    @update:model-value="cartStore.closeCheckout()"
+    v-model="cartStore.isCheckoutOpen"
     max-width="640"
-    persistent
     scrollable
   >
-    <v-card rounded="xl">
+    <v-card rounded="xl" class="checkout-card">
       <!-- Header -->
       <v-card-title class="d-flex align-center justify-space-between pa-4 pb-0">
         <span v-if="!cartStore.orderConfirmed" class="text-h6 font-weight-bold">Checkout</span>
@@ -58,15 +56,21 @@ function handlePlaceOrder() {
         </v-btn>
       </v-card-title>
 
-      <!-- Stepper (steps 1-3) -->
-      <div v-if="!cartStore.orderConfirmed" class="px-4 pt-2">
-        <v-stepper-header class="elevation-0">
-          <v-stepper-item :value="1" :complete="cartStore.checkoutStep > 1" title="Review" :color="cartStore.checkoutStep >= 1 ? 'black' : undefined"></v-stepper-item>
-          <v-divider></v-divider>
-          <v-stepper-item :value="2" :complete="cartStore.checkoutStep > 2" title="Details" :color="cartStore.checkoutStep >= 2 ? 'black' : undefined"></v-stepper-item>
-          <v-divider></v-divider>
-          <v-stepper-item :value="3" :complete="cartStore.checkoutStep > 3" title="Payment" :color="cartStore.checkoutStep >= 3 ? 'black' : undefined"></v-stepper-item>
-        </v-stepper-header>
+      <!-- Step indicators -->
+      <div v-if="!cartStore.orderConfirmed" class="d-flex align-center justify-center ga-2 px-4 pt-3 pb-1">
+        <div v-for="(step, i) in ['Review', 'Details', 'Payment']" :key="step" class="d-flex align-center">
+          <div class="d-flex align-center ga-2">
+            <v-avatar
+              :color="cartStore.checkoutStep > i + 1 ? 'black' : cartStore.checkoutStep === i + 1 ? 'black' : 'grey-lighten-2'"
+              size="28"
+            >
+              <v-icon v-if="cartStore.checkoutStep > i + 1" size="16" color="white">mdi-check</v-icon>
+              <span v-else class="text-caption font-weight-bold" :style="{ color: cartStore.checkoutStep === i + 1 ? 'white' : '#999' }">{{ i + 1 }}</span>
+            </v-avatar>
+            <span class="text-caption font-weight-bold" :style="{ color: cartStore.checkoutStep >= i + 1 ? '#111' : '#999' }">{{ step }}</span>
+          </div>
+          <v-divider v-if="i < 2" class="mx-2" style="max-width: 32px"></v-divider>
+        </div>
       </div>
 
       <v-card-text class="pa-4">
@@ -75,11 +79,11 @@ function handlePlaceOrder() {
           <!-- Fulfillment summary -->
           <v-card variant="tonal" color="grey-lighten-4" rounded="lg" class="mb-4 pa-3">
             <div class="d-flex align-center mb-1">
-              <v-icon size="20" class="mr-2">{{ cartStore.fulfillmentType === 'delivery' ? 'mdi-moped' : 'mdi-store' }}</v-icon>
-              <span class="text-subtitle-2 font-weight-bold text-capitalize">{{ cartStore.fulfillmentType }}</span>
-              <v-chip size="x-small" class="ml-2" color="success" variant="flat">{{ cartStore.estimatedTime }}</v-chip>
+              <v-icon size="20" class="mr-2" color="#1B5E20">{{ cartStore.fulfillmentType === 'delivery' ? 'mdi-moped' : 'mdi-store' }}</v-icon>
+              <span class="text-subtitle-2 font-weight-bold text-capitalize" style="color:#1B5E20">{{ cartStore.fulfillmentType }}</span>
+              <v-chip size="x-small" class="ml-2" color="success" variant="flat" style="color:#1B5E20;background:#C8E6C9;">{{ cartStore.estimatedTime }}</v-chip>
             </div>
-            <div class="text-body-2 text-grey">{{ cartStore.selectedStore?.name }} · {{ cartStore.selectedStore?.address }}</div>
+            <div class="text-body-2 font-weight-bold" style="color:#111">{{ cartStore.selectedStore?.name }} · {{ cartStore.selectedStore?.address }}</div>
           </v-card>
 
           <!-- Items -->
@@ -155,27 +159,27 @@ function handlePlaceOrder() {
             <div class="text-subtitle-2 font-weight-bold mb-3">Pickup Details</div>
             <v-card variant="tonal" color="grey-lighten-4" rounded="lg" class="pa-4 mb-4">
               <div class="d-flex align-center mb-2">
-                <v-icon color="success" class="mr-2">mdi-store-check</v-icon>
+                <v-icon color="#1B5E20" class="mr-2">mdi-store-check</v-icon>
                 <div>
-                  <div class="text-subtitle-2 font-weight-bold">{{ cartStore.selectedStore?.name }}</div>
-                  <div class="text-caption text-grey">{{ cartStore.selectedStore?.address }}, {{ cartStore.selectedStore?.city }} {{ cartStore.selectedStore?.zip }}</div>
+                  <div class="text-subtitle-2 font-weight-bold" style="color:#1B5E20">{{ cartStore.selectedStore?.name }}</div>
+                  <div class="text-caption font-weight-bold" style="color:#111">{{ cartStore.selectedStore?.address }}, {{ cartStore.selectedStore?.city }} {{ cartStore.selectedStore?.zip }}</div>
                 </div>
               </div>
-              <div class="d-flex align-center text-body-2 text-grey">
-                <v-icon size="16" class="mr-1">mdi-clock-outline</v-icon>
+              <div class="d-flex align-center text-body-2 font-weight-bold" style="color:#2E7D32">
+                <v-icon size="16" class="mr-1" color="#2E7D32">mdi-clock-outline</v-icon>
                 {{ cartStore.selectedStore?.hours }}
               </div>
-              <div class="d-flex align-center text-body-2 text-grey mt-1">
-                <v-icon size="16" class="mr-1">mdi-phone</v-icon>
+              <div class="d-flex align-center text-body-2 font-weight-bold mt-1" style="color:#2E7D32">
+                <v-icon size="16" class="mr-1" color="#2E7D32">mdi-phone</v-icon>
                 {{ cartStore.selectedStore?.phone }}
               </div>
             </v-card>
             <v-card variant="tonal" color="green-lighten-5" rounded="lg" class="pa-3">
               <div class="d-flex align-center">
-                <v-icon color="success" class="mr-2">mdi-clock-fast</v-icon>
+                <v-icon color="#1B5E20" class="mr-2">mdi-clock-fast</v-icon>
                 <div>
-                  <div class="text-body-2 font-weight-bold">Estimated Ready Time</div>
-                  <div class="text-subtitle-1 font-weight-bold text-success">{{ cartStore.estimatedTime }}</div>
+                  <div class="text-body-2 font-weight-bold" style="color:#1B5E20">Estimated Ready Time</div>
+                  <div class="text-subtitle-1 font-weight-bold" style="color:#2E7D32">{{ cartStore.estimatedTime }}</div>
                 </div>
               </div>
             </v-card>
@@ -197,7 +201,7 @@ function handlePlaceOrder() {
               </v-btn>
             </v-btn-toggle>
             <div v-if="tipPercent > 0" class="text-caption text-grey mt-1">
-              Tip: ${{ tipAmount.toFixed(2) }}
+              <span style="color:#1B5E20">Tip: ${{ tipAmount.toFixed(2) }}</span>
             </div>
           </div>
         </div>
@@ -214,16 +218,16 @@ function handlePlaceOrder() {
             class="w-100 mb-4"
           >
             <v-btn value="card" class="flex-grow-1" size="small">
-              <v-icon start size="18">mdi-credit-card</v-icon>
-              Card
+              <v-icon start size="18" :color="paymentMethod === 'card' ? 'white' : '#1B5E20'">mdi-credit-card</v-icon>
+              <span :style="{ color: paymentMethod === 'card' ? 'white' : '#1B5E20' }">Card</span>
             </v-btn>
             <v-btn value="apple" class="flex-grow-1" size="small">
-              <v-icon start size="18">mdi-apple</v-icon>
-              Apple Pay
+              <v-icon start size="18" :color="paymentMethod === 'apple' ? 'white' : '#111'">mdi-apple</v-icon>
+              <span :style="{ color: paymentMethod === 'apple' ? 'white' : '#111' }">Apple Pay</span>
             </v-btn>
             <v-btn value="google" class="flex-grow-1" size="small">
-              <v-icon start size="18">mdi-google</v-icon>
-              Google Pay
+              <v-icon start size="18" :color="paymentMethod === 'google' ? 'white' : '#111'">mdi-google</v-icon>
+              <span :style="{ color: paymentMethod === 'google' ? 'white' : '#111' }">Google Pay</span>
             </v-btn>
           </v-btn-toggle>
 
@@ -268,8 +272,8 @@ function handlePlaceOrder() {
           </div>
 
           <div v-else class="text-center pa-6">
-            <v-icon size="48" color="grey">{{ paymentMethod === 'apple' ? 'mdi-apple' : 'mdi-google' }}</v-icon>
-            <p class="text-body-2 text-grey mt-2">You'll be prompted to confirm with {{ paymentMethod === 'apple' ? 'Apple Pay' : 'Google Pay' }} when you place your order.</p>
+            <v-icon size="48" color="#111">{{ paymentMethod === 'apple' ? 'mdi-apple' : 'mdi-google' }}</v-icon>
+            <p class="text-body-2 font-weight-bold mt-2" style="color:#111">You'll be prompted to confirm with {{ paymentMethod === 'apple' ? 'Apple Pay' : 'Google Pay' }} when you place your order.</p>
           </div>
 
           <!-- Final totals -->
@@ -308,20 +312,20 @@ function handlePlaceOrder() {
 
           <v-card variant="tonal" color="green-lighten-5" rounded="lg" class="pa-4 mb-4 mx-auto" max-width="320">
             <div class="d-flex align-center justify-center">
-              <v-icon color="success" class="mr-2">mdi-clock-fast</v-icon>
+              <v-icon color="#1B5E20" class="mr-2">mdi-clock-fast</v-icon>
               <div class="text-left">
-                <div class="text-body-2 font-weight-bold">Estimated {{ cartStore.fulfillmentType === 'delivery' ? 'Delivery' : 'Pickup' }}</div>
-                <div class="text-h6 font-weight-bold text-success">{{ cartStore.estimatedTime }}</div>
+                <div class="text-body-2 font-weight-bold" style="color:#1B5E20">Estimated {{ cartStore.fulfillmentType === 'delivery' ? 'Delivery' : 'Pickup' }}</div>
+                <div class="text-h6 font-weight-bold" style="color:#2E7D32">{{ cartStore.estimatedTime }}</div>
               </div>
             </div>
           </v-card>
 
           <v-card variant="tonal" color="grey-lighten-4" rounded="lg" class="pa-3 mb-4 mx-auto" max-width="320">
             <div class="d-flex align-center justify-center">
-              <v-icon size="20" class="mr-2">{{ cartStore.fulfillmentType === 'delivery' ? 'mdi-moped' : 'mdi-store' }}</v-icon>
+              <v-icon size="20" class="mr-2" color="#1B5E20">{{ cartStore.fulfillmentType === 'delivery' ? 'mdi-moped' : 'mdi-store' }}</v-icon>
               <div class="text-left">
-                <div class="text-caption text-grey text-capitalize">{{ cartStore.fulfillmentType }} from</div>
-                <div class="text-body-2 font-weight-bold">{{ cartStore.selectedStore?.name }}</div>
+                <div class="text-caption font-weight-bold text-capitalize" style="color:#1B5E20">{{ cartStore.fulfillmentType }} from</div>
+                <div class="text-body-2 font-weight-bold" style="color:#111">{{ cartStore.selectedStore?.name }}</div>
               </div>
             </div>
           </v-card>
@@ -394,3 +398,10 @@ function handlePlaceOrder() {
     </v-card>
   </v-dialog>
 </template>
+
+<style>
+.checkout-card,
+.checkout-card:hover {
+  transform: none !important;
+}
+</style>

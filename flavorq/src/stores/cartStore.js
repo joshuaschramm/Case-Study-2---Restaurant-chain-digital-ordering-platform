@@ -81,11 +81,11 @@ export const useCartStore = defineStore('cart', () => {
   const confirmedOrderNumber = ref(null)
 
   function openCheckout() {
-    isDrawerOpen.value = false
     checkoutStep.value = 1
     orderConfirmed.value = false
     confirmedOrderNumber.value = null
     isCheckoutOpen.value = true
+    isDrawerOpen.value = false
   }
 
   function closeCheckout() {

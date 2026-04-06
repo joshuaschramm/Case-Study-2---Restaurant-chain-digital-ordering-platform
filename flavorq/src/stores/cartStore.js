@@ -24,6 +24,7 @@ export const useCartStore = defineStore('cart', () => {
     } else {
       items.value.push({ menuItem, quantity: 1 })
     }
+    isDrawerOpen.value = true
   }
 
   function removeItem(menuItemId) {

@@ -1,0 +1,5 @@
+[
+  { "name": "Classic Smash Burger", "ordersToday": 142, "hourlyOrders": [18, 24, 35, 30, 22, 13] },
+  { "name": "Nashville Hot Tenders", "ordersToday": 98, "hourlyOrders": [10, 15, 28, 22, 14, 9] },
+  { "name": "Iced Lemonade", "ordersToday": 117, "hourlyOrders": [12, 20, 30, 25, 18, 12] }
+]

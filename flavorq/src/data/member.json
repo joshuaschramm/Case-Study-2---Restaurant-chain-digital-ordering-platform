@@ -1,0 +1,13 @@
+{
+  "name": "Alex R.",
+  "memberId": "FG-MEM-90421",
+  "tier": "Gold",
+  "points": 2480,
+  "pointsToNextTier": 520,
+  "memberSince": "2024-03-15",
+  "defaultStore": "FireGrill — Downtown",
+  "defaultOrderType": "Pickup",
+  "dietaryPreferences": ["Low Carb"],
+  "spiceLevel": 2,
+  "favoriteItemIds": [1, 5, 8, 12, 17]
+}

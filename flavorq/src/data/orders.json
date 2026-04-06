@@ -1,0 +1,171 @@
+[
+  {
+    "orderId": "FG-20260406-0042",
+    "date": "2026-04-06",
+    "storeName": "FireGrill — Downtown",
+    "items": [
+      { "name": "Classic Smash Burger", "quantity": 2, "price": 9.99 },
+      { "name": "Classic French Fries", "quantity": 2, "price": 3.49 },
+      { "name": "Iced Lemonade", "quantity": 2, "price": 2.99 }
+    ],
+    "subtotal": 32.94,
+    "tax": 2.80,
+    "tip": 5.00,
+    "total": 40.74,
+    "status": "In Progress",
+    "pointsEarned": 81,
+    "paymentMethod": "Visa ending in 4821"
+  },
+  {
+    "orderId": "FG-20260403-0038",
+    "date": "2026-04-03",
+    "storeName": "FireGrill — Downtown",
+    "items": [
+      { "name": "Crispy Chicken Sandwich", "quantity": 1, "price": 10.99 },
+      { "name": "Loaded Cheese Fries", "quantity": 1, "price": 5.99 },
+      { "name": "Strawberry Milkshake", "quantity": 1, "price": 5.49 }
+    ],
+    "subtotal": 22.47,
+    "tax": 1.91,
+    "tip": 4.00,
+    "total": 28.38,
+    "status": "Completed",
+    "pointsEarned": 56,
+    "paymentMethod": "Visa ending in 4821"
+  },
+  {
+    "orderId": "FG-20260330-0035",
+    "date": "2026-03-30",
+    "storeName": "FireGrill — Midtown",
+    "items": [
+      { "name": "Nashville Hot Tenders", "quantity": 1, "price": 8.99 },
+      { "name": "Classic French Fries", "quantity": 1, "price": 3.49 },
+      { "name": "Cold Brew Coffee", "quantity": 1, "price": 3.99 }
+    ],
+    "subtotal": 16.47,
+    "tax": 1.40,
+    "tip": 3.00,
+    "total": 20.87,
+    "status": "Completed",
+    "pointsEarned": 41,
+    "paymentMethod": "Visa ending in 4821"
+  },
+  {
+    "orderId": "FG-20260326-0031",
+    "date": "2026-03-26",
+    "storeName": "FireGrill — Downtown",
+    "items": [
+      { "name": "Spicy Inferno Burger", "quantity": 1, "price": 11.49 },
+      { "name": "Onion Rings", "quantity": 1, "price": 4.49 },
+      { "name": "Iced Lemonade", "quantity": 1, "price": 2.99 }
+    ],
+    "subtotal": 18.97,
+    "tax": 1.61,
+    "tip": 3.50,
+    "total": 24.08,
+    "status": "Completed",
+    "pointsEarned": 48,
+    "paymentMethod": "Apple Pay"
+  },
+  {
+    "orderId": "FG-20260321-0027",
+    "date": "2026-03-21",
+    "storeName": "FireGrill — Westside",
+    "items": [
+      { "name": "Honey Garlic Wings", "quantity": 1, "price": 11.99 },
+      { "name": "Side Salad", "quantity": 1, "price": 4.99 },
+      { "name": "Tropical Mango Smoothie", "quantity": 1, "price": 5.99 }
+    ],
+    "subtotal": 22.97,
+    "tax": 1.95,
+    "tip": 4.00,
+    "total": 28.92,
+    "status": "Completed",
+    "pointsEarned": 57,
+    "paymentMethod": "Visa ending in 4821"
+  },
+  {
+    "orderId": "FG-20260317-0024",
+    "date": "2026-03-17",
+    "storeName": "FireGrill — Downtown",
+    "items": [
+      { "name": "BBQ Bacon Burger", "quantity": 1, "price": 12.49 },
+      { "name": "Mac & Cheese Bites", "quantity": 1, "price": 5.49 },
+      { "name": "Strawberry Milkshake", "quantity": 1, "price": 5.49 }
+    ],
+    "subtotal": 23.47,
+    "tax": 1.99,
+    "tip": 4.00,
+    "total": 29.46,
+    "status": "Completed",
+    "pointsEarned": 59,
+    "paymentMethod": "Visa ending in 4821"
+  },
+  {
+    "orderId": "FG-20260312-0019",
+    "date": "2026-03-12",
+    "storeName": "FireGrill — Midtown",
+    "items": [
+      { "name": "Chocolate Lava Cake", "quantity": 2, "price": 6.99 },
+      { "name": "Cold Brew Coffee", "quantity": 2, "price": 3.99 }
+    ],
+    "subtotal": 21.96,
+    "tax": 1.87,
+    "tip": 3.50,
+    "total": 27.33,
+    "status": "Completed",
+    "pointsEarned": 55,
+    "paymentMethod": "Apple Pay"
+  },
+  {
+    "orderId": "FG-20260308-0015",
+    "date": "2026-03-08",
+    "storeName": "FireGrill — Downtown",
+    "items": [
+      { "name": "Veggie Garden Burger", "quantity": 1, "price": 10.49 },
+      { "name": "Classic French Fries", "quantity": 1, "price": 3.49 },
+      { "name": "Iced Lemonade", "quantity": 1, "price": 2.99 }
+    ],
+    "subtotal": 16.97,
+    "tax": 1.44,
+    "tip": 3.00,
+    "total": 21.41,
+    "status": "Completed",
+    "pointsEarned": 42,
+    "paymentMethod": "Visa ending in 4821"
+  },
+  {
+    "orderId": "FG-20260303-0011",
+    "date": "2026-03-03",
+    "storeName": "FireGrill — Eastside",
+    "items": [
+      { "name": "Grilled Chicken Wrap", "quantity": 2, "price": 9.49 },
+      { "name": "Fresh Fruit Cup", "quantity": 1, "price": 3.99 }
+    ],
+    "subtotal": 22.97,
+    "tax": 1.95,
+    "tip": 4.00,
+    "total": 28.92,
+    "status": "Cancelled",
+    "pointsEarned": 0,
+    "paymentMethod": "Visa ending in 4821"
+  },
+  {
+    "orderId": "FG-20260227-0008",
+    "date": "2026-02-27",
+    "storeName": "FireGrill — Downtown",
+    "items": [
+      { "name": "Classic Smash Burger", "quantity": 1, "price": 9.99 },
+      { "name": "Nashville Hot Tenders", "quantity": 1, "price": 8.99 },
+      { "name": "Loaded Cheese Fries", "quantity": 1, "price": 5.99 },
+      { "name": "Iced Lemonade", "quantity": 2, "price": 2.99 }
+    ],
+    "subtotal": 30.95,
+    "tax": 2.63,
+    "tip": 5.00,
+    "total": 38.58,
+    "status": "Completed",
+    "pointsEarned": 77,
+    "paymentMethod": "Visa ending in 4821"
+  }
+]

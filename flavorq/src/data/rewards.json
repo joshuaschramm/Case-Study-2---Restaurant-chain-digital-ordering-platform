@@ -1,0 +1,23 @@
+{
+  "pointsHistory": [
+    { "date": "2026-04-06", "description": "Order #FG-20260406-0042", "points": 81, "type": "earned" },
+    { "date": "2026-04-03", "description": "Order #FG-20260403-0038", "points": 56, "type": "earned" },
+    { "date": "2026-04-01", "description": "Redeemed: Free Medium Drink", "points": -200, "type": "redeemed" },
+    { "date": "2026-03-30", "description": "Order #FG-20260330-0035", "points": 41, "type": "earned" },
+    { "date": "2026-03-26", "description": "Order #FG-20260326-0031", "points": 48, "type": "earned" },
+    { "date": "2026-03-21", "description": "Order #FG-20260321-0027", "points": 57, "type": "earned" },
+    { "date": "2026-03-17", "description": "Order #FG-20260317-0024", "points": 59, "type": "earned" },
+    { "date": "2026-03-12", "description": "Redeemed: Free Side", "points": -350, "type": "redeemed" }
+  ],
+  "monthlyPoints": [180, 220, 150, 310, 280, 420, 350, 290, 380, 410, 320, 480],
+  "redeemableRewards": [
+    { "name": "Free Medium Drink", "pointsCost": 200, "icon": "mdi-cup", "description": "Any medium fountain drink or iced tea" },
+    { "name": "Free Side", "pointsCost": 350, "icon": "mdi-french-fries", "description": "Any regular side item" },
+    { "name": "Free Entrée", "pointsCost": 800, "icon": "mdi-hamburger", "description": "Any burger, sandwich, or wrap" },
+    { "name": "Free Combo Meal", "pointsCost": 1200, "icon": "mdi-food", "description": "Any entrée with a side and drink" },
+    { "name": "$10 Off Order", "pointsCost": 1000, "icon": "mdi-tag", "description": "$10 discount on your next order" },
+    { "name": "Branded Merch", "pointsCost": 1500, "icon": "mdi-tshirt-crew", "description": "FireGrill t-shirt or hat" },
+    { "name": "Donate to Charity", "pointsCost": 500, "icon": "mdi-hand-heart", "description": "Donate meal value to local food bank" },
+    { "name": "Mystery Reward", "pointsCost": 2000, "icon": "mdi-gift", "description": "A surprise reward — could be anything!" }
+  ]
+}

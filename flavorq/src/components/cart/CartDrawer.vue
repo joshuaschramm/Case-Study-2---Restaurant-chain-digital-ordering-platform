@@ -19,6 +19,63 @@ const cartStore = useCartStore()
         </v-btn>
       </div>
 
+      <!-- Store & Fulfillment Selection -->
+      <v-card variant="tonal" color="grey-lighten-4" rounded="lg" class="mb-4 pa-3">
+        <div class="text-caption font-weight-bold text-uppercase mb-2">Order Type</div>
+        <v-btn-toggle
+          :model-value="cartStore.fulfillmentType"
+          @update:model-value="cartStore.setFulfillmentType($event)"
+          mandatory
+          color="black"
+          rounded="lg"
+          density="compact"
+          class="w-100 mb-3"
+        >
+          <v-btn value="pickup" class="flex-grow-1" size="small">
+            <v-icon start size="18">mdi-store</v-icon>
+            Pickup
+          </v-btn>
+          <v-btn value="delivery" class="flex-grow-1" size="small">
+            <v-icon start size="18">mdi-moped</v-icon>
+            Delivery
+          </v-btn>
+        </v-btn-toggle>
+
+        <div class="text-caption font-weight-bold text-uppercase mb-2">Store Location</div>
+        <v-select
+          :model-value="cartStore.selectedStore"
+          @update:model-value="cartStore.setStore($event)"
+          :items="cartStore.stores"
+          item-title="name"
+          item-value="id"
+          return-object
+          variant="outlined"
+          density="compact"
+          hide-details
+          rounded="lg"
+        >
+          <template #item="{ item, props: itemProps }">
+            <v-list-item v-bind="itemProps" :subtitle="item.raw.address + ', ' + item.raw.city">
+              <template #append>
+                <v-chip
+                  :color="item.raw.isOpen ? 'success' : 'error'"
+                  size="x-small"
+                  variant="flat"
+                >
+                  {{ item.raw.isOpen ? 'Open' : 'Closed' }}
+                </v-chip>
+              </template>
+            </v-list-item>
+          </template>
+        </v-select>
+
+        <div v-if="cartStore.selectedStore" class="d-flex align-center text-caption text-grey mt-2">
+          <v-icon size="14" class="mr-1">mdi-map-marker</v-icon>
+          {{ cartStore.selectedStore.address }}, {{ cartStore.selectedStore.city }}
+          <span class="ml-2">· {{ cartStore.selectedStore.distance }}</span>
+        </div>
+      </v-card>
+
       <!-- Empty State -->
       <div v-if="cartStore.isEmpty" class="text-center py-12">
         <v-icon size="80" color="grey-lighten-1">mdi-shopping-outline</v-icon>
@@ -40,7 +97,7 @@ const cartStore = useCartStore()
             <div class="flex-grow-1">
               <div class="text-subtitle-2">{{ item.menuItem.name }}</div>
               <div class="text-body-2 text-primary font-weight-bold">
-                ${{ (item.menuItem.price * item.quantity).toFixed(2) }}
+                ${{ ((item.menuItem.salePrice || item.menuItem.price) * item.quantity).toFixed(2) }}
               </div>
             </div>
             <div class="d-flex align-center">
@@ -62,6 +119,18 @@ const cartStore = useCartStore()
       <!-- Order Summary -->
       <div v-if="!cartStore.isEmpty" class="mt-4">
         <v-divider class="mb-4"></v-divider>
+
+        <!-- Estimated Time -->
+        <v-card variant="tonal" color="green-lighten-5" rounded="lg" class="mb-4 pa-3">
+          <div class="d-flex align-center">
+            <v-icon color="success" class="mr-2">mdi-clock-fast</v-icon>
+            <div>
+              <div class="text-body-2 font-weight-bold">Estimated {{ cartStore.fulfillmentType === 'delivery' ? 'Delivery' : 'Pickup' }} Time</div>
+              <div class="text-subtitle-1 font-weight-bold text-success">{{ cartStore.estimatedTime }}</div>
+            </div>
+          </div>
+        </v-card>
+
         <div class="d-flex justify-space-between text-body-2 mb-1">
           <span>Subtotal</span>
           <span>${{ cartStore.subtotal.toFixed(2) }}</span>
@@ -70,12 +139,16 @@ const cartStore = useCartStore()
           <span>Tax (8.5%)</span>
           <span>${{ cartStore.tax.toFixed(2) }}</span>
         </div>
+        <div v-if="cartStore.fulfillmentType === 'delivery'" class="d-flex justify-space-between text-body-2 mb-1">
+          <span>Delivery Fee</span>
+          <span>${{ cartStore.deliveryFee.toFixed(2) }}</span>
+        </div>
         <v-divider class="my-2"></v-divider>
         <div class="d-flex justify-space-between text-subtitle-1 font-weight-bold mb-4">
           <span>Estimated Total</span>
           <span>${{ cartStore.total.toFixed(2) }}</span>
         </div>
-        <v-btn block color="primary" size="large" prepend-icon="mdi-cash-register">
+        <v-btn block color="primary" size="large" prepend-icon="mdi-cash-register" @click="cartStore.openCheckout()">
           Checkout
         </v-btn>
         <v-btn block variant="text" color="error" class="mt-2" @click="cartStore.clearCart()">

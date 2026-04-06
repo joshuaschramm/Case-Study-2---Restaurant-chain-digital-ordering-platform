@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router'
 import { useDisplay } from 'vuetify'
 import { useCartStore } from './stores/cartStore'
 import CartDrawer from './components/cart/CartDrawer.vue'
+import CheckoutDialog from './components/cart/CheckoutDialog.vue'
 import logoSvg from './assets/logo.svg'
 
 const route = useRoute()
@@ -81,6 +82,7 @@ const activeTab = computed(() => {
     </v-app-bar>
 
     <CartDrawer />
+    <CheckoutDialog />
 
     <!-- Desktop Sidebar Navigation -->
     <v-navigation-drawer

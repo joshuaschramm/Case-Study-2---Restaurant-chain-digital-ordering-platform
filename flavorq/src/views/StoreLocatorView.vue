@@ -1,17 +1,23 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, watch, nextTick } from 'vue'
+import mapboxgl from 'mapbox-gl'
+import 'mapbox-gl/dist/mapbox-gl.css'
 import storesData from '../data/stores.json'
+
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN
 
 const searchQuery = ref('')
 const filterServices = ref([])
 const selectedStore = ref(storesData[0])
+const mapContainer = ref(null)
+let map = null
+const markers = []
 
 const serviceChips = ['Open Now', 'Drive-Through', 'Dine-In', 'Mobile Pickup']
 
 const filteredStores = computed(() => {
   let result = [...storesData]
 
-  // Filter by search query
   if (searchQuery.value) {
     const q = searchQuery.value.toLowerCase()
     result = result.filter(
@@ -23,7 +29,6 @@ const filteredStores = computed(() => {
     )
   }
 
-  // Filter by services
   if (filterServices.value.length > 0) {
     result = result.filter(store => {
       return filterServices.value.every(filter => {
@@ -38,7 +43,50 @@ const filteredStores = computed(() => {
 
 function selectStore(store) {
   selectedStore.value = store
+  if (map) {
+    map.flyTo({ center: [store.lng, store.lat], zoom: 14, duration: 800 })
+  }
 }
+
+function updateMarkers() {
+  markers.forEach(m => m.remove())
+  markers.length = 0
+
+  filteredStores.value.forEach(store => {
+    const el = document.createElement('div')
+    el.className = 'store-marker'
+    el.innerHTML = `<svg width="32" height="40" viewBox="0 0 32 40" fill="none"><path d="M16 0C7.16 0 0 7.16 0 16c0 12 16 24 16 24s16-12 16-24C32 7.16 24.84 0 16 0z" fill="${selectedStore.value?.id === store.id ? '#cc0505' : '#111111'}"/><circle cx="16" cy="16" r="8" fill="white"/><text x="16" y="20" text-anchor="middle" font-size="11" font-weight="bold" fill="${selectedStore.value?.id === store.id ? '#cc0505' : '#111111'}">${store.id}</text></svg>`
+    el.style.cursor = 'pointer'
+    el.addEventListener('click', () => selectStore(store))
+
+    const marker = new mapboxgl.Marker({ element: el, anchor: 'bottom' })
+      .setLngLat([store.lng, store.lat])
+      .addTo(map)
+
+    markers.push(marker)
+  })
+}
+
+onMounted(() => {
+  map = new mapboxgl.Map({
+    container: mapContainer.value,
+    style: 'mapbox://styles/mapbox/light-v11',
+    center: [-89.6501, 39.7817],
+    zoom: 11.5,
+  })
+
+  map.addControl(new mapboxgl.NavigationControl(), 'top-right')
+
+  map.on('load', () => {
+    updateMarkers()
+  })
+})
+
+watch([filteredStores, selectedStore], () => {
+  if (map && map.loaded()) {
+    updateMarkers()
+  }
+})
 </script>
 
 <template>
@@ -143,23 +191,16 @@ function selectStore(store) {
         </v-card>
       </v-col>
 
-      <!-- Map Placeholder -->
+      <!-- Map -->
       <v-col cols="12" md="7">
-        <v-card
-          height="500"
-          color="grey-lighten-2"
-          rounded="lg"
-          class="d-flex flex-column align-center justify-center position-relative"
-        >
-          <v-icon size="60" color="grey">mdi-map</v-icon>
-          <h3 class="text-h5 text-grey mt-2">🗺️ Map View</h3>
-          <p class="text-body-2 text-grey">Interactive map would render here</p>
+        <v-card variant="flat" rounded="lg" class="position-relative" style="overflow: hidden">
+          <div ref="mapContainer" style="width: 100%; height: 500px"></div>
 
           <!-- Selected Store Overlay -->
           <v-card
             v-if="selectedStore"
             class="position-absolute pa-4"
-            style="bottom: 16px; left: 16px; right: 16px"
+            style="bottom: 16px; left: 16px; right: 16px; z-index: 1"
             variant="flat"
             rounded="lg"
           >
@@ -174,3 +215,11 @@ function selectStore(store) {
     </v-row>
   </v-container>
 </template>
+
+<style scoped>
+.store-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>

@@ -86,10 +86,13 @@ const picks = computed(() => {
             <div class="text-subtitle-2 font-weight-bold mb-1">{{ item.name }}</div>
             <v-chip size="x-small" variant="flat" class="mb-2 pick-tag">{{ item.pickTag }}</v-chip>
             <div class="d-flex justify-space-between align-center mb-2">
-              <span class="text-body-2 font-weight-bold">${{ item.price.toFixed(2) }}</span>
+              <div>
+                <span v-if="item.salePrice" class="text-body-2 text-grey text-decoration-line-through mr-1">${{ item.price.toFixed(2) }}</span>
+                <span class="text-body-2 font-weight-bold" :class="{ 'sale-price': item.salePrice }">${{ (item.salePrice || item.price).toFixed(2) }}</span>
+              </div>
               <span class="text-caption text-grey">{{ item.calories }} cal</span>
             </div>
-            <v-btn variant="outlined" color="black" size="small" block rounded="lg" @click="cartStore.addItem(item)">
+            <v-btn variant="flat" color="black" size="small" block rounded="lg" @click="cartStore.addItem(item)">
               Add to Order
             </v-btn>
           </v-card-text>
@@ -123,5 +126,8 @@ const picks = computed(() => {
 }
 .picks-card {
   flex: 0 0 auto;
+}
+.sale-price {
+  color: #cc0505 !important;
 }
 </style>

@@ -51,7 +51,7 @@ const isFavorite = memberStore.member.favoriteItemIds.includes(props.item.id)
           v-for="tag in item.tags"
           :key="tag"
           size="x-small"
-          class="mr-1 mb-1 menu-tag"
+          :class="['mr-1 mb-1', tag === 'Vegetarian' ? 'tag-vegetarian' : tag === 'Gluten-Free' ? 'tag-gluten-free' : tag === 'Popular' ? 'tag-popular' : 'menu-tag']"
           variant="flat"
         >
           {{ tag === 'Spicy' ? 'Spicy 🌶️' : tag === 'Vegetarian' ? 'Vegetarian 🌱' : tag }}
@@ -59,7 +59,10 @@ const isFavorite = memberStore.member.favoriteItemIds.includes(props.item.id)
       </div>
       <div class="mt-auto">
         <div class="d-flex align-center justify-space-between mb-2">
-          <span class="text-subtitle-1 font-weight-bold">${{ item.price.toFixed(2) }}</span>
+          <div>
+            <span v-if="item.salePrice" class="text-subtitle-1 text-grey text-decoration-line-through mr-1">${{ item.price.toFixed(2) }}</span>
+            <span class="text-subtitle-1 font-weight-bold" :class="{ 'sale-price': item.salePrice }">${{ (item.salePrice || item.price).toFixed(2) }}</span>
+          </div>
           <span class="text-caption text-grey">{{ item.calories }} cal</span>
         </div>
         <v-btn color="black" variant="flat" block size="small" rounded="lg" @click="cartStore.addItem(item)">
@@ -73,6 +76,21 @@ const isFavorite = memberStore.member.favoriteItemIds.includes(props.item.id)
 <style scoped>
 .menu-tag {
   background-color: rgba(204, 5, 5, 0.1) !important;
+  color: #cc0505 !important;
+}
+.tag-vegetarian {
+  background-color: rgba(46, 125, 50, 0.12) !important;
+  color: #2E7D32 !important;
+}
+.tag-gluten-free {
+  background-color: rgba(156, 110, 15, 0.12) !important;
+  color: #7B5B00 !important;
+}
+.tag-popular {
+  background-color: #E0E0E0 !important;
+  color: #212121 !important;
+}
+.sale-price {
   color: #cc0505 !important;
 }
 </style>

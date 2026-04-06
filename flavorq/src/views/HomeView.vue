@@ -65,10 +65,13 @@ const trendingItems = trendingData.map(t => {
               <div class="text-subtitle-2 font-weight-bold mb-1">{{ item.name }}</div>
               <v-chip size="x-small" variant="flat" class="mb-2 popular-tag">Ordered {{ item.ordersToday }}x today</v-chip>
               <div class="d-flex justify-space-between align-center mb-2">
-                <span class="text-body-2 font-weight-bold">${{ item.price?.toFixed(2) }}</span>
+                <div>
+                  <span v-if="item.menuItem?.salePrice" class="text-body-2 text-grey text-decoration-line-through mr-1">${{ item.price?.toFixed(2) }}</span>
+                  <span class="text-body-2 font-weight-bold" :class="{ 'sale-price': item.menuItem?.salePrice }">${{ (item.menuItem?.salePrice || item.price)?.toFixed(2) }}</span>
+                </div>
                 <span class="text-caption text-grey">{{ item.calories }} cal</span>
               </div>
-              <v-btn v-if="item.menuItem" variant="outlined" color="black" size="small" block rounded="lg" @click="cartStore.addItem(item.menuItem)">
+              <v-btn v-if="item.menuItem" variant="flat" color="black" size="small" block rounded="lg" @click="cartStore.addItem(item.menuItem)">
                 Add to Order
               </v-btn>
             </v-card-text>
@@ -107,6 +110,9 @@ const trendingItems = trendingData.map(t => {
 }
 .popular-tag {
   background-color: rgba(204, 5, 5, 0.1) !important;
+  color: #cc0505 !important;
+}
+.sale-price {
   color: #cc0505 !important;
 }
 </style>

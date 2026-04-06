@@ -11,6 +11,15 @@ const categoryIcons = {
   Sides: 'mdi-french-fries',
   Drinks: 'mdi-cup',
   Desserts: 'mdi-ice-cream',
+  Mexican: 'mdi-taco',
+  Thai: 'mdi-bowl-mix',
+  Chinese: 'mdi-noodles',
+  Vietnamese: 'mdi-bowl',
+  Italian: 'mdi-pizza',
+  Indian: 'mdi-pot-steam',
+  Japanese: 'mdi-fish',
+  Mediterranean: 'mdi-food-halal',
+  Korean: 'mdi-rice',
 }
 
 const filterChips = ['Under 500 Cal', 'Spicy 🌶️', 'Vegetarian 🌱', 'Gluten-Free']

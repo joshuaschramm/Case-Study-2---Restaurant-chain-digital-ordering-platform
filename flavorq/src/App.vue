@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useDisplay } from 'vuetify'
 import { useCartStore } from './stores/cartStore'
 import CartDrawer from './components/cart/CartDrawer.vue'
 import logoSvg from './assets/logo.svg'
@@ -8,8 +9,10 @@ import logoSvg from './assets/logo.svg'
 const route = useRoute()
 const cartStore = useCartStore()
 const accountMenu = ref(false)
+const { mdAndUp } = useDisplay()
+const sidebarRail = ref(false)
 
-const bottomNavItems = [
+const navItems = [
   { title: 'Home', icon: 'mdi-home', to: '/', routeName: 'Home' },
   { title: 'Menu', icon: 'mdi-food', to: '/menu', routeName: 'Menu' },
   { title: 'Orders', icon: 'mdi-receipt-text-outline', to: '/orders', routeName: 'Orders' },
@@ -25,7 +28,7 @@ const timeOfDay = computed(() => {
 })
 
 const activeTab = computed(() => {
-  const idx = bottomNavItems.findIndex(i => i.routeName === route.name)
+  const idx = navItems.findIndex(i => i.routeName === route.name)
   return idx >= 0 ? idx : 0
 })
 </script>
@@ -79,14 +82,50 @@ const activeTab = computed(() => {
 
     <CartDrawer />
 
-    <v-main class="pb-16">
+    <!-- Desktop Sidebar Navigation -->
+    <v-navigation-drawer
+      v-if="mdAndUp"
+      :rail="sidebarRail"
+      permanent
+      color="white"
+      class="sidebar-nav border-r"
+    >
+      <v-list nav density="compact" class="mt-2">
+        <v-list-item
+          v-for="item in navItems"
+          :key="item.routeName"
+          :to="item.to"
+          :prepend-icon="item.icon"
+          :title="item.title"
+          :active="item.routeName === route.name"
+          active-color="red"
+          rounded="lg"
+          class="mb-1"
+        ></v-list-item>
+      </v-list>
+
+      <template #append>
+        <div class="pa-2 d-flex justify-center">
+          <v-btn
+            icon
+            variant="text"
+            size="small"
+            @click="sidebarRail = !sidebarRail"
+          >
+            <v-icon>{{ sidebarRail ? 'mdi-chevron-right' : 'mdi-chevron-left' }}</v-icon>
+          </v-btn>
+        </div>
+      </template>
+    </v-navigation-drawer>
+
+    <v-main :class="{ 'pb-16': !mdAndUp }">
       <router-view />
     </v-main>
 
-    <!-- Bottom Navigation -->
-    <v-bottom-navigation :model-value="activeTab" grow bg-color="white" elevation="0" class="border-t bottom-nav">
+    <!-- Bottom Navigation (Tablet / Mobile only) -->
+    <v-bottom-navigation v-if="!mdAndUp" :model-value="activeTab" grow bg-color="white" elevation="0" class="border-t bottom-nav">
       <v-btn
-        v-for="(item, index) in bottomNavItems"
+        v-for="(item, index) in navItems"
         :key="item.routeName"
         :to="item.to"
         :value="index"
@@ -135,6 +174,23 @@ const activeTab = computed(() => {
 }
 .border-b {
   border-bottom: 1px solid #E0E0E0 !important;
+}
+.border-r {
+  border-right: 1px solid #E0E0E0 !important;
+}
+/* Sidebar navigation styles */
+.sidebar-nav .v-list-item--active .v-list-item-title,
+.sidebar-nav .v-list-item--active .v-icon {
+  color: #cc0505 !important;
+}
+.sidebar-nav .v-list-item--active {
+  background-color: rgba(204, 5, 5, 0.08) !important;
+}
+.sidebar-nav .v-list-item--active .v-list-item__overlay {
+  opacity: 0 !important;
+}
+.sidebar-nav {
+  box-shadow: none !important;
 }
 .bottom-nav .v-btn--active .v-icon,
 .bottom-nav .v-btn--active .text-caption,

@@ -20,28 +20,28 @@ const cartStore = useCartStore()
       </div>
 
       <!-- Store & Fulfillment Selection -->
-      <v-card variant="tonal" color="grey-lighten-4" rounded="lg" class="mb-4 pa-3">
-        <div class="text-caption font-weight-bold text-uppercase mb-2">Order Type</div>
+      <v-card variant="flat" rounded="lg" class="mb-4 pa-3 border" style="border: 1px solid #E0E0E0 !important">
+        <div class="text-body-2 font-weight-bold mb-2">Order Type</div>
         <v-btn-toggle
           :model-value="cartStore.fulfillmentType"
           @update:model-value="cartStore.setFulfillmentType($event)"
           mandatory
           color="black"
           rounded="lg"
-          density="compact"
-          class="w-100 mb-3"
+          density="comfortable"
+          class="w-100 mb-4"
         >
-          <v-btn value="pickup" class="flex-grow-1" size="small">
-            <v-icon start size="18">mdi-store</v-icon>
+          <v-btn value="pickup" class="flex-grow-1">
+            <v-icon start size="20">mdi-store</v-icon>
             Pickup
           </v-btn>
-          <v-btn value="delivery" class="flex-grow-1" size="small">
-            <v-icon start size="18">mdi-moped</v-icon>
+          <v-btn value="delivery" class="flex-grow-1">
+            <v-icon start size="20">mdi-moped</v-icon>
             Delivery
           </v-btn>
         </v-btn-toggle>
 
-        <div class="text-caption font-weight-bold text-uppercase mb-2">Store Location</div>
+        <div class="text-body-2 font-weight-bold mb-2">Store Location</div>
         <v-select
           :model-value="cartStore.selectedStore"
           @update:model-value="cartStore.setStore($event)"
@@ -50,7 +50,7 @@ const cartStore = useCartStore()
           item-value="id"
           return-object
           variant="outlined"
-          density="compact"
+          density="comfortable"
           hide-details
           rounded="lg"
         >
@@ -69,11 +69,17 @@ const cartStore = useCartStore()
           </template>
         </v-select>
 
-        <div v-if="cartStore.selectedStore" class="d-flex align-center text-caption text-grey mt-2">
-          <v-icon size="14" class="mr-1">mdi-map-marker</v-icon>
-          {{ cartStore.selectedStore.address }}, {{ cartStore.selectedStore.city }}
-          <span class="ml-2">· {{ cartStore.selectedStore.distance }}</span>
-        </div>
+        <v-card v-if="cartStore.selectedStore" variant="flat" rounded="lg" class="pa-2 mt-3" style="background-color: #E8F5E9">
+          <div class="d-flex align-center">
+            <v-icon size="18" color="success" class="mr-2">mdi-map-marker-check</v-icon>
+            <div>
+              <div class="text-body-2 font-weight-bold" style="color: #1B5E20">{{ cartStore.selectedStore.name }}</div>
+              <div class="text-caption" style="color: #555">
+                {{ cartStore.selectedStore.address }}, {{ cartStore.selectedStore.city }} · {{ cartStore.selectedStore.distance }}
+              </div>
+            </div>
+          </div>
+        </v-card>
       </v-card>
 
       <!-- Empty State -->
@@ -121,12 +127,12 @@ const cartStore = useCartStore()
         <v-divider class="mb-4"></v-divider>
 
         <!-- Estimated Time -->
-        <v-card variant="tonal" color="green-lighten-5" rounded="lg" class="mb-4 pa-3">
+        <v-card variant="flat" rounded="lg" class="mb-4 pa-3" style="background-color: #E8F5E9">
           <div class="d-flex align-center">
             <v-icon color="success" class="mr-2">mdi-clock-fast</v-icon>
             <div>
-              <div class="text-body-2 font-weight-bold">Estimated {{ cartStore.fulfillmentType === 'delivery' ? 'Delivery' : 'Pickup' }} Time</div>
-              <div class="text-subtitle-1 font-weight-bold text-success">{{ cartStore.estimatedTime }}</div>
+              <div class="text-body-2 font-weight-bold" style="color: #1B5E20">Estimated {{ cartStore.fulfillmentType === 'delivery' ? 'Delivery' : 'Pickup' }} Time</div>
+              <div class="text-subtitle-1 font-weight-bold" style="color: #2E7D32">{{ cartStore.estimatedTime }}</div>
             </div>
           </div>
         </v-card>
